@@ -11,7 +11,7 @@ bl_info = {
     "category": "System",
     }
 
-import bpy, os, sys
+import bpy, subprocess, sys
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty
 
@@ -74,9 +74,14 @@ class PIPInstaller(bpy.types.Operator): #PIP installer class
 
         print("Let's install PIP")
 
-        os.system(addon_prefs.python_filepath + " " + addon_prefs.pip_install_file) #Command to install PIP
-
-        print("PIP installed successfully")
+        command = subprocess.Popen(addon_prefs.python_filepath + " " + addon_prefs.pip_install_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install PIP
+        
+        if command.wait() != 0:
+            output, error = command.communicate()
+            self.report({'ERROR'}, str(error))
+        else:
+            self.report({'INFO'}, "PIP installed successfully")
+        
         return {'FINISHED'}
 
 class ModuleInstaller(bpy.types.Operator): #Module installer class
@@ -92,8 +97,14 @@ class ModuleInstaller(bpy.types.Operator): #Module installer class
         python_dir = os.path.dirname(os.path.dirname(addon_prefs.python_filepath))
         pip_location = python_dir + "\Scripts\pip.exe" #Only for windows (mac and linux later)
 
-        os.system(addon_prefs.python_filepath + " " + pip_location + " install " + addon_prefs.pip_modules) #Command to install modules
-
+        command = subprocess.Popen(addon_prefs.python_filepath + " " + pip_location + " install " + addon_prefs.pip_modules, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install modules
+        
+        if command.wait() != 0:
+            output, error = command.communicate()
+            self.report({'ERROR'}, str(error))
+        else:
+            self.report({'INFO'}, "Modules installed successfully")
+        
         return {'FINISHED'}
 
 class ModuleUninstaller(bpy.types.Operator): #Modle uninstaller class
@@ -109,8 +120,14 @@ class ModuleUninstaller(bpy.types.Operator): #Modle uninstaller class
         python_dir = os.path.dirname(os.path.dirname(addon_prefs.python_filepath))
         pip_location = python_dir + "\Scripts\pip.exe" #Only for windows (mac and linux later)
 
-        os.system(addon_prefs.python_filepath + " " + pip_location + " uninstall " + addon_prefs.pip_modules) #Command to uninstall modules
-
+        command = subprocess.Popen(addon_prefs.python_filepath + " " + pip_location + " uninstall " + addon_prefs.pip_modules, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to uninstall modules
+        
+        if command.wait() != 0:
+            output, error = command.communicate()
+            self.report({'ERROR'}, str(error))
+        else:
+            self.report({'INFO'}, "Modules uninstalled successfully")
+            
         return {'FINISHED'}
 
 # Registration

@@ -11,7 +11,7 @@ bl_info = {
     "category": "System",
     }
 
-import bpy, os
+import bpy, os, sys
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty
 
@@ -23,11 +23,13 @@ class UIAddonPreferences(AddonPreferences):
     python_filepath = StringProperty(
             name="Python File Path (blender python exec)",
             subtype='FILE_PATH',
+            default=sys.executable, #TO TEST > Not working on MACOS
             ) #Python file path
 
     pip_install_file = StringProperty(
-            name="PIP install file (get from official python website)",
+            name="PIP install file",
             subtype='FILE_PATH',
+            default=bpy.utils.user_resource('SCRIPTS', path="addons/Module-Installer/utils/get-pip.py"), #Locate get-pip.py to install PIP
             ) #PIP install file
 
     pip_modules = StringProperty(

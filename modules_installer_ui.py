@@ -1,3 +1,23 @@
+'''
+Copyright (C) 2018 Leo DEPOIX
+LEONUMERIQUE@GMAIL.com
+
+Created by Leo DEPOIX
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+'''
+
 import bpy, subprocess, sys, os
 from bpy import context
 from bpy.types import Operator, AddonPreferences
@@ -69,7 +89,7 @@ class PIPInstaller(bpy.types.Operator): #PIP installer class
 
         print("Let's install PIP")
 
-        command = subprocess.Popen("\"" + addon_prefs.python_filepath +  " --python \" " + addon_prefs.pip_install_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install PIP
+        command = subprocess.Popen("\"" + addon_prefs.python_filepath +  "\" \"" + addon_prefs.pip_install_file + "\"", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install PIP
 
         if command.wait() != 0:
             output, error = command.communicate()
@@ -89,7 +109,7 @@ class ModuleInstaller(bpy.types.Operator): #Modules installer class
 
         print("Let's install modules")
 
-        command = subprocess.Popen("\"" + addon_prefs.python_filepath + "\" --python " + "\"" + addon_prefs.pip_filepath + "\" install " + addon_prefs.pip_modules, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install modules
+        command = subprocess.Popen("\"" + addon_prefs.python_filepath + "\" \"" + addon_prefs.pip_filepath + "\" install " + addon_prefs.pip_modules, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install modules
 
         if command.wait() != 0:
             output, error = command.communicate()
@@ -112,7 +132,7 @@ class ModuleUninstaller(bpy.types.Operator): #Modules uninstaller class
         python_dir = os.path.dirname(os.path.dirname(addon_prefs.python_filepath))
         pip_location = python_dir + "\Scripts\pip.exe" #Only for windows (mac and linux later)
 
-        command = subprocess.Popen("\"" + addon_prefs.python_filepath + "\" " + "\"" + addon_prefs.pip_filepath + "\" uninstall " + addon_prefs.pip_modules, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to uninstall modules
+        command = subprocess.Popen("\"" + addon_prefs.python_filepath + "\" \"" + addon_prefs.pip_filepath + "\" uninstall " + addon_prefs.pip_modules + " -y", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to uninstall modules
 
         if command.wait() != 0:
             output, error = command.communicate()

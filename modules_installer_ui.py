@@ -53,7 +53,7 @@ class SYSTEM_addon_module_installer(Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        
+
         user_preferences = context.user_preferences
         addon_prefs = user_preferences.addons[__package__].preferences
 
@@ -65,7 +65,7 @@ class PIPInstaller(bpy.types.Operator): #PIP installer class
 
     def execute(self, context):
         user_preferences = context.user_preferences
-        addon_prefs = user_preferences.addons[__name__].preferences
+        addon_prefs = user_preferences.addons[__package__].preferences
 
         print("Let's install PIP")
 
@@ -85,7 +85,7 @@ class ModuleInstaller(bpy.types.Operator): #Modules installer class
 
     def execute(self, context):
         user_preferences = context.user_preferences
-        addon_prefs = user_preferences.addons[__name__].preferences
+        addon_prefs = user_preferences.addons[__package__].preferences
 
         print("Let's install modules")
 
@@ -105,7 +105,7 @@ class ModuleUninstaller(bpy.types.Operator): #Modules uninstaller class
 
     def execute(self, context):
         user_preferences = context.user_preferences
-        addon_prefs = user_preferences.addons[__name__].preferences
+        addon_prefs = user_preferences.addons[__package__].preferences
 
         print("Let's uninstall modules")
 

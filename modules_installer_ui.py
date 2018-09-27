@@ -34,6 +34,13 @@ class UIAddonPreferences(AddonPreferences):
             subtype='FILE_PATH',
             default=sys.executable, #ONLY WORKING ON WINDOWS CURRENTLY
             ) #Python file path
+            
+            '''
+            Windows path: "yourPathToBlender/2.79/python/bin/python.exe
+            MacOS (steam): "/Users/yourusername/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
+            MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
+            Linux: ?
+            '''
 
     pip_install_file = StringProperty(
             name="PIP install file",
@@ -46,6 +53,13 @@ class UIAddonPreferences(AddonPreferences):
             subtype='FILE_PATH',
             default=sys.executable, #ONLY WORKING ON WINDOWS CURRENTLY
             ) #Python file path
+
+            '''
+            Windows path: "yourPathToBlender/2.79//python/Scripts/pip.exe"
+            MacOS (steam): "/Users/youruser/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/pip"
+            MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/pip"
+            Linux: ?
+            '''
 
     pip_modules = StringProperty(
             name="PIP modules (just space between modules)",
@@ -60,9 +74,9 @@ class UIAddonPreferences(AddonPreferences):
         box.prop(self, "python_filepath")
         box.prop(self, "pip_install_file")
         box.operator("system.install_pip")
-
-        box.prop(self, "pip_modules")
+        
         box.prop(self, "pip_filepath")
+        box.prop(self, "pip_modules")
         box.operator("system.install_modules")
         box.operator("system.uninstall_modules")
 

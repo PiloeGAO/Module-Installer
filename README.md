@@ -1,6 +1,6 @@
 # Modules Installer
 
-Blender Addon to help devs to add new modules to embedded Python.
+Blender Addon to help devs add new modules to embedded Python.
 
 ## Getting Started
 
@@ -24,7 +24,7 @@ Then click on **Install Modules** (or **Uninstall Modules**) to add (or remove) 
 9. Now you can code in the Blender Python IDLE with modules like Pillow!
 
 ## TO-DO's
-This list contain all features we plan to add in futur.
+This list contain all features we plan to add in the future.
 
  - [X] Windows support
  - [ ] Linux support
@@ -34,7 +34,7 @@ This list contain all features we plan to add in futur.
  
 ## Contributing
 
-**We need your help!** so if you have any ideas or new features send to us!
+**We need your help!** so if you have any ideas or new features send them to us!
 
 ## Versioning
 

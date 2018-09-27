@@ -35,12 +35,10 @@ class UIAddonPreferences(AddonPreferences):
             default=sys.executable, #use bundled-python to get correct path
             ) #Python file path
             
-            '''
-            Windows path: "yourPathToBlender/2.79/python/bin/python.exe
-            MacOS (steam): "/Users/yourusername/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
-            MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
-            Linux: ?
-            '''
+            #Windows path: "yourPathToBlender/2.79/python/bin/python.exe
+            #MacOS (steam): "/Users/yourusername/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
+            #MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
+            #Linux: ?
 
     pip_install_file = StringProperty(
             name="PIP install file",
@@ -54,12 +52,10 @@ class UIAddonPreferences(AddonPreferences):
             default=sys.executable, #ONLY WORKING ON WINDOWS CURRENTLY
             ) #Python file path
 
-            '''
-            Windows path: "yourPathToBlender/2.79//python/Scripts/pip.exe"
-            MacOS (steam): "/Users/youruser/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/pip"
-            MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/pip"
-            Linux: ?
-            '''
+            #Windows path: "yourPathToBlender/2.79//python/Scripts/pip.exe"
+            #MacOS (steam): "/Users/youruser/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/pip"
+            #MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/pip"
+            #Linux: ?
 
     pip_modules = StringProperty(
             name="PIP modules (just space between modules)",
@@ -81,7 +77,7 @@ class UIAddonPreferences(AddonPreferences):
         box.operator("system.uninstall_modules")
 
 
-class SYSTEM_addon_module_installer(Operator):
+class SYSTEM_OT_addon_module_installer(Operator):
     bl_idname = "system.addon_module_installer"
     bl_label = "Add-on Module Installer"
     bl_options = {'REGISTER', 'UNDO'}

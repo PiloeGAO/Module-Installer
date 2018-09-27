@@ -32,7 +32,7 @@ class UIAddonPreferences(AddonPreferences):
     python_filepath = StringProperty(
             name="Python File Path (blender python exec)",
             subtype='FILE_PATH',
-            default=sys.executable, #ONLY WORKING ON WINDOWS CURRENTLY
+            default=sys.executable, #use bundled-python to get correct path
             ) #Python file path
             
             '''
@@ -143,15 +143,12 @@ class ModuleUninstaller(bpy.types.Operator): #Modules uninstaller class
 
         print("Let's uninstall modules")
 
-        python_dir = os.path.dirname(os.path.dirname(addon_prefs.python_filepath))
-        pip_location = python_dir + "\Scripts\pip.exe" #Only for windows (mac and linux later)
-
-        command = subprocess.Popen("\"" + addon_prefs.python_filepath + "\" \"" + addon_prefs.pip_filepath + "\" uninstall " + addon_prefs.pip_modules + " -y", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to uninstall modules
+        command = subprocess.Popen("\"" + addon_prefs.python_filepath + "\" \"" + addon_prefs.pip_filepath + "\" uninstall " + addon_prefs.pip_modules, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install modules
 
         if command.wait() != 0:
             output, error = command.communicate()
             self.report({'ERROR'}, str(error))
         else:
-            self.report({'INFO'}, "Modules uninstalled successfully")
+            self.report({'INFO'}, "Modules installed successfully")
 
         return {'FINISHED'}

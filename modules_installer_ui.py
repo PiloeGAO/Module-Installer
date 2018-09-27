@@ -24,7 +24,7 @@ from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty
 import importlib
 
-class UIAddonPreferences(AddonPreferences):
+class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     # this must match the add-on name, use '__package__'
     # when defining this in a submodule of a python package.
     bl_idname = __package__
@@ -89,7 +89,7 @@ class SYSTEM_OT_addon_module_installer(Operator):
 
         return {'FINISHED'}
 
-class PIPInstaller(bpy.types.Operator): #PIP installer class
+class SYSTEM_OT_PIPInstaller(bpy.types.Operator): #PIP installer class
     bl_idname = "system.install_pip"
     bl_label = "Install PIP"
 
@@ -109,7 +109,7 @@ class PIPInstaller(bpy.types.Operator): #PIP installer class
 
         return {'FINISHED'}
 
-class ModuleInstaller(bpy.types.Operator): #Modules installer class
+class SYSTEM_OT_ModuleInstaller(bpy.types.Operator): #Modules installer class
     bl_idname = "system.install_modules"
     bl_label = "Install Modules"
 
@@ -129,7 +129,7 @@ class ModuleInstaller(bpy.types.Operator): #Modules installer class
 
         return {'FINISHED'}
 
-class ModuleUninstaller(bpy.types.Operator): #Modules uninstaller class
+class SYSTEM_OT_ModuleUninstaller(bpy.types.Operator): #Modules uninstaller class
     bl_idname = "system.uninstall_modules"
     bl_label = "Uninstall Modules"
 

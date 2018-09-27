@@ -45,5 +45,4 @@ modules = developer_utils.setup_addon_modules(__path__, __name__, "bpy" in local
 
 # register
 ##################################
-
-register, unregister = bpy.utils.register_classes_factory(__name__)
+register, unregister = bpy.utils.register_classes_factory(modules) #Register not register class... Bug?

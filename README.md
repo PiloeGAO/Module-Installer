@@ -26,9 +26,9 @@ Then click on **Install Modules** (or **Uninstall Modules**) to add (or remove) 
 ## TO-DO's
 This list contain all features we plan to add in futur.
 
- - [X] Windows support  
- - [ ] Linux support  
- - [ ] Mac OS support
+ - [X] Windows support
+ - [ ] Linux support
+ - [X] Mac OS support
  - [ ] PIP and defined modules auto install on start.
  
 ## Contributing

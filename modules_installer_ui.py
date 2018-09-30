@@ -18,7 +18,8 @@ Created by Leo DEPOIX
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import bpy, subprocess, sys, os
+import bpy
+import platform, subprocess, sys, os
 from bpy import context
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty
@@ -28,11 +29,28 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     # this must match the add-on name, use '__package__'
     # when defining this in a submodule of a python package.
     bl_idname = __package__
-
+    
+    python_path = ""
+    pip_path = ""
+    pip_present = True #Set by default pip installed
+        
+    try: #Check if it is installed
+        import pip 
+    except ImportError: #If not set pip to False
+        pip_present = False
+        
+    if pip_present:
+        if platform.system() == "Windows":
+            python_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/bin", "python.exe") #Working on Windows
+            pip_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/Scripts", "pip.exe") #Working on Windows
+        else:
+            python_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/bin", "python3.5m") #Working on Windows
+            pip_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/bin", "pip") #Working on Windows
+    
     python_filepath = StringProperty(
             name="Python File Path (blender python exec)",
             subtype='FILE_PATH',
-            default=sys.executable, #use bundled-python to get correct path
+            default=python_path, #use bundled-python to get correct path
             ) #Python file path
             
             #Windows path: "yourPathToBlender/2.79/python/bin/python.exe
@@ -49,8 +67,8 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     pip_filepath = StringProperty(
             name="PIP File Path (blender python PIP)",
             subtype='FILE_PATH',
-            default=sys.executable, #ONLY WORKING ON WINDOWS CURRENTLY
-            ) #Python file path
+            default=pip_path, #Use pip_filepath 
+            ) 
 
             #Windows path: "yourPathToBlender/2.79//python/Scripts/pip.exe"
             #MacOS (steam): "/Users/youruser/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/pip"
@@ -71,10 +89,13 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
         box.prop(self, "pip_install_file")
         box.operator("system.install_pip")
         
-        box.prop(self, "pip_filepath")
-        box.prop(self, "pip_modules")
-        box.operator("system.install_modules")
-        box.operator("system.uninstall_modules")
+        if True: #Use pip_present to show/hide install panel
+            box.prop(self, "pip_filepath")
+            box.prop(self, "pip_modules")
+            box.operator("system.install_modules")
+            box.operator("system.uninstall_modules")
+        else:
+            box.label(text="PIP should be installed to be used!")
 
 
 class SYSTEM_OT_addon_module_installer(Operator):
@@ -83,9 +104,8 @@ class SYSTEM_OT_addon_module_installer(Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-
-        user_preferences = context.user_preferences
-        addon_prefs = user_preferences.addons[__package__].preferences
+        user_preferences = context.user_preferences #Get preferences
+        addon_prefs = user_preferences.addons[__package__].preferences #Show addon preferences
 
         return {'FINISHED'}
 

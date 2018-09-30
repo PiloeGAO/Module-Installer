@@ -27,9 +27,9 @@ Then click on **Install Modules** (or **Uninstall Modules**) to add (or remove) 
 This list contain all features we plan to add in the future.
 
  - [X] Windows support
- - [ ] Linux support
+ - [X] Linux support
  - [X] Mac OS support
- - [ ] Addon choose paths automaticly (*only supported now for get-pip file*)
+ - [ ] Addon choose paths automaticly (*only supported now for get-pip file; python and pip path WIP*)
  - [ ] PIP and defined modules auto install on start.
  
 ## Contributing

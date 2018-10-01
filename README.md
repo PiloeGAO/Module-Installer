@@ -28,7 +28,7 @@ This list contain all features we plan to add in the future.
  - [X] Windows support
  - [X] Linux support
  - [X] Mac OS support
- - [X] Addon choose paths automaticly (*Windows and Mac OS support! Linux in test*)
+ - [X] Addon choose paths automaticly (*Windows and Mac OS support! Linux in progress*)
  - [ ] PIP and defined modules auto install on start.
  
 ## Contributing

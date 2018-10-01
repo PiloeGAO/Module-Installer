@@ -8,8 +8,7 @@ Blender Addon to help devs add new modules to embedded Python.
 
 ### Prerequisites
 
-Windows or Mac OS version of Blender.
-*LINUX will be supported later.*
+Windows ,Mac OS or Linux version of Blender.
 
 ### Installation
 
@@ -18,8 +17,8 @@ Windows or Mac OS version of Blender.
 3.  Go to File > User Preferences > Addons
 4.  Click "Install From File" and navigate to the downloaded .zip file and install
 5.  Check the box next to "Modules Installer"
-6.  Now you can access to the installer (*in addon's preferences*) by selecting the python launcher and click on **Install PIP** button
-7. To download new modules just select pip launcher and type modules *(use space for multiples modules)*
+6.  Now you can access to the installer (*in addon's preferences*). click on **Install PIP** button to install it.
+7. To download new modules just type modules *(use space for multiples modules)*
 Then click on **Install Modules** (or **Uninstall Modules**) to add (or remove) modules
 9. Now you can code in the Blender Python IDLE with modules like Pillow!
 
@@ -29,7 +28,7 @@ This list contain all features we plan to add in the future.
  - [X] Windows support
  - [X] Linux support
  - [X] Mac OS support
- - [ ] Addon choose paths automaticly (*only supported now for get-pip file; python and pip path WIP*)
+ - [X] Addon choose paths automaticly (*Windows and Mac OS support! Linux in test*)
  - [ ] PIP and defined modules auto install on start.
  
 ## Contributing

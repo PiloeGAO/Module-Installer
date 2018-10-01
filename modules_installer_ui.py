@@ -40,23 +40,21 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
         pip_present = False
         
     if pip_present:
-        if platform.system() == "Windows":
-            python_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/bin", "python.exe") #Working on Windows
-            pip_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/Scripts", "pip.exe") #Working on Windows
-        else:
-            python_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/bin", "python3.5m") #Working on Windows
-            pip_path = os.path.join(os.path.dirname(sys.executable), "2.79/python/bin", "pip") #Working on Windows
+        if platform.system() == "Windows": #Paths for Windows 
+            python_path = os.path.join(os.path.dirname(sys.executable), bpy.app.version_string[:4]+"/python/bin", "python.exe")
+            pip_path = os.path.join(os.path.dirname(sys.executable), bpy.app.version_string[:4]+"/python/Scripts", "pip.exe")
+        elif platform.system() == "Darwin": #Paths for MacOS
+            python_path = os.path.join(os.path.normpath(os.path.join(os.path.dirname(sys.executable), *([".."] * 1)) ), "Resources/"+bpy.app.version_string[:4]+"/python/bin", "python3.5m")
+            pip_path = os.path.join(os.path.normpath(os.path.join(os.path.dirname(sys.executable), *([".."] * 1)) ), "Resources/"+bpy.app.version_string[:4]+"/python/bin", "pip")
+        else: #Paths for Linux
+            python_path = os.path.join(os.path.dirname(sys.executable), bpy.app.version_string[:4]+"/python/bin", "python3.5m")
+            pip_path = os.path.join(os.path.dirname(sys.executable), bpy.app.version_string[:4]+"/python/bin", "pip")
     
     python_filepath = StringProperty(
             name="Python File Path (blender python exec)",
             subtype='FILE_PATH',
             default=python_path, #use bundled-python to get correct path
             ) #Python file path
-            
-            #Windows path: "yourPathToBlender/2.79/python/bin/python.exe
-            #MacOS (steam): "/Users/yourusername/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
-            #MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/python3.5m"
-            #Linux: ?
 
     pip_install_file = StringProperty(
             name="PIP install file",
@@ -68,12 +66,7 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
             name="PIP File Path (blender python PIP)",
             subtype='FILE_PATH',
             default=pip_path, #Use pip_filepath 
-            ) 
-
-            #Windows path: "yourPathToBlender/2.79//python/Scripts/pip.exe"
-            #MacOS (steam): "/Users/youruser/Library/Application Support/Steam/steamapps/common/Blender/blender.app/Contents/Resources/2.79/python/bin/pip"
-            #MacOS (nosteam): "yourPathToBlender/blender.app/Contents/Resources/2.79/python/bin/pip"
-            #Linux: ?
+            )
 
     pip_modules = StringProperty(
             name="PIP modules (just space between modules)",
@@ -83,19 +76,18 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     def draw(self, context):
         layout = self.layout
         layout.label(text="This is preferences to setup PIP and new modules")
-
+        
         box = layout.box()
         box.prop(self, "python_filepath")
-        box.prop(self, "pip_install_file")
-        box.operator("system.install_pip")
+        if not SYSTEM_UL_UIAddonPreferences.pip_present == True:
+            box.prop(self, "pip_install_file")
+            box.operator("system.install_pip")
         
-        if True: #Use pip_present to show/hide install panel
+        else: #Use pip_present to show/hide install panel
             box.prop(self, "pip_filepath")
             box.prop(self, "pip_modules")
             box.operator("system.install_modules")
             box.operator("system.uninstall_modules")
-        else:
-            box.label(text="PIP should be installed to be used!")
 
 
 class SYSTEM_OT_addon_module_installer(Operator):

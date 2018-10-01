@@ -46,9 +46,13 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
         elif platform.system() == "Darwin": #Paths for MacOS
             python_path = os.path.join(os.path.normpath(os.path.join(os.path.dirname(sys.executable), *([".."] * 1)) ), "Resources/"+bpy.app.version_string[:4]+"/python/bin", "python3.5m")
             pip_path = os.path.join(os.path.normpath(os.path.join(os.path.dirname(sys.executable), *([".."] * 1)) ), "Resources/"+bpy.app.version_string[:4]+"/python/bin", "pip")
-        else: #Paths for Linux
+        elif platform.system() == "Linux": #Paths for Linux
             python_path = os.path.join(os.path.dirname(sys.executable), bpy.app.version_string[:4]+"/python/bin", "python3.5m")
             pip_path = os.path.join(os.path.dirname(sys.executable), bpy.app.version_string[:4]+"/python/bin", "pip")
+        else: #Paths for other
+            print("System unkwon!")
+            python_path = os.path.join(os.path.dirname(sys.executable))
+            pip_path = os.path.join(os.path.dirname(sys.executable))
     
     python_filepath = StringProperty(
             name="Python File Path (blender python exec)",
@@ -117,7 +121,7 @@ class SYSTEM_OT_PIPInstaller(bpy.types.Operator): #PIP installer class
             output, error = command.communicate()
             self.report({'ERROR'}, str(error))
         else:
-            self.report({'INFO'}, "PIP installed successfully")
+            self.report({'INFO'}, "PIP installed successfully - Please restart Blender!")
 
         return {'FINISHED'}
 
@@ -137,7 +141,7 @@ class SYSTEM_OT_ModuleInstaller(bpy.types.Operator): #Modules installer class
             output, error = command.communicate()
             self.report({'ERROR'}, str(error))
         else:
-            self.report({'INFO'}, "Modules installed successfully")
+            self.report({'INFO'}, "Modules installed successfully - Please restart Blender!")
 
         return {'FINISHED'}
 
@@ -157,6 +161,6 @@ class SYSTEM_OT_ModuleUninstaller(bpy.types.Operator): #Modules uninstaller clas
             output, error = command.communicate()
             self.report({'ERROR'}, str(error))
         else:
-            self.report({'INFO'}, "Modules installed successfully")
+            self.report({'INFO'}, "Modules installed successfully - Please restart Blender!")
 
         return {'FINISHED'}

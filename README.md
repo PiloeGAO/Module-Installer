@@ -28,8 +28,10 @@ This list contain all features we plan to add in the future.
  - [X] Windows support
  - [X] Linux support
  - [X] Mac OS support
- - [X] Addon choose paths automaticly (*Windows and Mac OS support! Linux in progress*)
- - [ ] PIP and defined modules auto install on start.
+ - [X] Addon choose paths automaticly (*Windows and Mac OS support! Linux in progress, more tests needed*)
+ - [ ] PIP and defined modules auto install on start. 
+ - [ ] Some minor bug fixes
+ - [ ] Blender 2.8X Support
  
 ## Contributing
 

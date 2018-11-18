@@ -19,7 +19,6 @@ Created by Leo DEPOIX
 '''
 
 import bpy
-import modules_installer_preferences
 
 class PIPInstallPopup(bpy.types.Menu):
     bl_idname = "SYSTEM_OP_pip_install_query"

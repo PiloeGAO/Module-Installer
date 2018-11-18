@@ -25,7 +25,7 @@ from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty
 import importlib
 
-import auto_install
+import modules_installer_popups
 
 class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     # this must match the add-on name, use '__package__'
@@ -35,7 +35,9 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     python_path = ""
     pip_path = ""
     pip_present = True #Set by default pip installed
-        
+    
+    modules_reader_path = bpy.utils.user_resource('SCRIPTS', path="addons/Module-Installer/modules.txt") #Get path of modules.txt
+            
     try: #Check if it is installed
         import pip 
     except ImportError: #If not set pip to False
@@ -86,16 +88,20 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
         box = layout.box()
         box.prop(self, "python_filepath")
         if not SYSTEM_UL_UIAddonPreferences.pip_present == True:
-            if(pip_path != null)
-                bpy.context.window_manager.popup_menu(auto_install.PIPInstallPopup.draw, title="PIP Install", icon='INFO')
+            if(pip_path != null):
+                bpy.context.window_manager.popup_menu(modules_installer_popups.PIPInstallPopup.draw, title="PIP Install", icon='INFO')
             box.prop(self, "pip_install_file")
             box.operator("system.install_pip")
         
         else: #Use pip_present to show/hide install panel
             box.prop(self, "pip_filepath")
-            box.prop(self, "pip_modules")
-            box.operator("system.install_modules")
-            box.operator("system.uninstall_modules")
+            modules_reader_present = SYSTEM_OT_ModulesReader.execute(SYSTEM_UL_UIAddonPreferences.python_path, SYSTEM_UL_UIAddonPreferences.pip_path, SYSTEM_UL_UIAddonPreferences.modules_reader_path)
+            if(modules_reader_present):
+                box.prop(self, "pip_modules")
+                box.operator("system.install_modules")
+                box.operator("system.uninstall_modules")
+            else:
+                box.operator(SYSTEM_OT_ModulesReader.uninstall(SYSTEM_UL_UIAddonPreferences.python_path, SYSTEM_UL_UIAddonPreferences.pip_path, SYSTEM_UL_UIAddonPreferences.modules_reader_path), title="Uninstall modules")
 
 
 class SYSTEM_OT_addon_module_installer(Operator):
@@ -128,6 +134,35 @@ class SYSTEM_OT_PIPInstaller(bpy.types.Operator): #PIP installer class
             self.report({'INFO'}, "PIP installed successfully - Please restart Blender!")
 
         return {'FINISHED'}
+
+class SYSTEM_OT_ModulesReader(): #Class with all modules.txt fonctions      
+    def execute(python_filepath, pip_filepath, modules_reader_path):
+        print("Let's get modules from a file")
+        
+        print("filesize:" + str(os.path.getsize(modules_reader_path)))
+        if(os.path.getsize(modules_reader_path) > 139):
+            SYSTEM_OT_ModulesReader.installer(python_filepath, pip_filepath, modules_reader_path)
+            return False
+        else:
+            return True
+    
+    def installer(python_filepath, pip_filepath, modules_reader_path):
+        command = subprocess.Popen("\"" + python_filepath + "\" \"" + pip_filepath + "\" install " + modules_reader_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install modules
+
+        if command.wait() != 0:
+            output, error = command.communicate()
+            bpy.types.Operator.report({'ERROR'}, str(error)) #Error on Operator with no attribute called 'report'
+        else:
+            bpy.types.Operator.report({'INFO'}, "Modules installed successfully - Please restart Blender!") #Error on Operator with no attribute called 'report'
+            
+    def uninstaller(python_filepath, pip_filepath, modules_reader_path):
+        command = subprocess.Popen("\"" + python_filepath + "\" \"" + pip_filepath + "\" uninstall " + modules_reader_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True) #Command to install modules
+
+        if command.wait() != 0:
+            output, error = command.communicate()
+            bpy.types.Operator.report({'ERROR'}, str(error)) #Error on Operator with no attribute called 'report'
+        else:
+            bpy.types.Operator.report({'INFO'}, "Modules uninstalled successfully - Please restart Blender!") #Error on Operator with no attribute called 'report'
 
 class SYSTEM_OT_ModuleInstaller(bpy.types.Operator): #Modules installer class
     bl_idname = "system.install_modules"

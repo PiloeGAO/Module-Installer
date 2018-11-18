@@ -22,7 +22,7 @@ bl_info = {
     "name": "Modules Installer",
     "description": "",
     "author": "PiloeGAO (Leo DEPOIX)",
-    "version": (0, 0, 4),
+    "version": (0, 0, 5),
     "blender": (2, 79, 0),
     "location": "",
     "warning": "This addon is still in development.",

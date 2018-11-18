@@ -25,6 +25,8 @@ from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty
 import importlib
 
+import auto_install
+
 class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
     # this must match the add-on name, use '__package__'
     # when defining this in a submodule of a python package.
@@ -84,6 +86,8 @@ class SYSTEM_UL_UIAddonPreferences(AddonPreferences):
         box = layout.box()
         box.prop(self, "python_filepath")
         if not SYSTEM_UL_UIAddonPreferences.pip_present == True:
+            if(pip_path != null)
+                bpy.context.window_manager.popup_menu(auto_install.PIPInstallPopup.draw, title="PIP Install", icon='INFO')
             box.prop(self, "pip_install_file")
             box.operator("system.install_pip")
         

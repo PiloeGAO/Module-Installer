@@ -1,5 +1,7 @@
 # Modules Installer
 
+*[ADDON DEPRECADED AND WOULDN'T BE UPDATED FOR BLENDER 2.8+]*
+
 Blender Addon to help devs add new modules to embedded Python.
 
 ## Getting Started
